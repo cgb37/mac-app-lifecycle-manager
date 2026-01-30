@@ -1,0 +1,42 @@
+# apps-to-close.txt.example
+# List of applications to close automatically
+#
+# Format: One app per line, using one of three methods:
+#
+# 1. APP_NAME: Standard app name (use for most apps)
+#    Example: ChatGPT
+#
+# 2. PATH:/path/to/app: Full path (for apps with generic process names)
+#    Example: PATH:/Applications/Visual Studio Code.app
+#    Required for: VS Code (appears as "Electron"), IntelliJ (appears as "idea")
+#
+# 3. FORCE:bundle.identifier.pattern: Force quit using pkill (for stubborn apps)
+#    Example: FORCE:com.devexperts.tos.ui.user.thinkorswim
+#    Required for: Java apps that ignore graceful quit
+#
+# Comments start with #
+# Blank lines are ignored
+
+# Standard apps (close by name)
+ChatGPT
+Google Chrome
+Microsoft Edge
+Microsoft OneNote
+Microsoft Outlook
+Messages
+Slack
+Stickies
+GitKraken
+Quicken
+Docker Desktop
+iTerm2
+
+# Apps with problematic process names (close by path)
+PATH:/Applications/Visual Studio Code.app
+PATH:/Applications/IntelliJ IDEA Ultimate.app
+PATH:/Applications/DataGrip.app
+PATH:/Applications/Microsoft Teams.app
+PATH:/Applications/Sublime Text.app
+
+# Stubborn apps requiring force termination (close by bundle ID)
+FORCE:com.devexperts.tos.ui.user.thinkorswim
