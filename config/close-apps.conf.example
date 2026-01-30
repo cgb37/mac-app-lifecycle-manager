@@ -1,0 +1,68 @@
+# close-apps.conf.example
+# Configuration for macOS App Lifecycle Manager - Close Apps
+#
+# Copy this file to close-apps.conf (in the same directory) and customize.
+# The .conf files stay in the repository and are gitignored.
+
+# =============================================================================
+# PATHS
+# =============================================================================
+
+# Path to the app list file (contains apps to close)
+# Default: ${REPO_ROOT}/config/apps-to-close.txt
+APP_LIST_PATH="${REPO_ROOT}/config/apps-to-close.txt"
+
+# Path to the AppleScript that performs the closing
+# Default: Automatically determined from script location
+APPLESCRIPT_PATH="${SCRIPT_DIR}/close-apps.applescript"
+
+# =============================================================================
+# LOGGING
+# =============================================================================
+
+# Log file location
+# Default: ${REPO_ROOT}/logs/close-apps.log
+LOG_PATH="${REPO_ROOT}/logs/close-apps.log"
+
+# Error log location
+# Default: ${REPO_ROOT}/logs/close-apps.err
+ERR_LOG_PATH="${REPO_ROOT}/logs/close-apps.err"
+
+# Log level: DEBUG, INFO, WARN, ERROR
+# Default: INFO
+LOG_LEVEL="INFO"
+
+# =============================================================================
+# BEHAVIOR
+# =============================================================================
+
+# Timeout for graceful app quit (seconds)
+# Default: 3
+QUIT_TIMEOUT=3
+
+# Delay between closing each app (seconds)
+# Useful if rapid closing causes issues
+# Default: 0.1
+CLOSE_DELAY=0.1
+
+# Retry count for stubborn apps before force quitting
+# Default: 2
+RETRY_COUNT=2
+
+# =============================================================================
+# SCHEDULE (for launchd plist generation)
+# =============================================================================
+
+# Hour to run (24-hour format: 0-23)
+# Default: 19 (7:00 PM)
+SCHEDULE_HOUR=19
+
+# Minute to run (0-59)
+# Default: 0
+SCHEDULE_MINUTE=0
+
+# Days of week to run (optional, comma-separated)
+# 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+# Leave empty to run every day
+# Example: "1,2,3,4,5" for weekdays only
+SCHEDULE_WEEKDAYS=""
