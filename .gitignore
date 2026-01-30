@@ -1,6 +1,28 @@
 # Created by https://www.toptal.com/developers/gitignore/api/macos,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,windows
 
+# =============================================================================
+# mac-app-lifecycle-manager - User Configuration & Data
+# =============================================================================
+
+# User configuration files (generated from .example templates)
+config/*.conf
+config/apps-to-close.txt
+config/apps-to-open.txt
+
+# Log files
+logs/
+*.log
+*.err
+
+# Backup files
+*.bak
+*~
+
+# =============================================================================
+# Standard macOS/Windows Ignores
+# =============================================================================
+
 ### macOS ###
 # General
 .DS_Store
