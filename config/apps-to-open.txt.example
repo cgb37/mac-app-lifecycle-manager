@@ -1,0 +1,20 @@
+# apps-to-open.txt.example
+# Whitelist of applications to open automatically
+#
+# Format: One app path per line (full path to .app bundle)
+# Comments start with #
+# Blank lines are ignored
+#
+# Example:
+# /Applications/Google Chrome.app
+# /Applications/Slack.app
+# /Users/username/Applications/Custom App.app
+#
+# Note: Apps will be launched in the order listed (unless PRIMARY_APP_PATH is set)
+
+/Applications/GitKraken.app
+/Applications/Google Chrome.app
+/Applications/Microsoft Edge.app
+/Applications/Visual Studio Code.app
+/Applications/Slack.app
+/Applications/iTerm2.app
