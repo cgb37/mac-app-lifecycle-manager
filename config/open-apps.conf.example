@@ -1,0 +1,74 @@
+# open-apps.conf.example
+# Configuration for macOS App Lifecycle Manager - Open Apps
+#
+# Copy this file to open-apps.conf (in the same directory) and customize.
+# The .conf files stay in the repository and are gitignored.
+
+# =============================================================================
+# PATHS
+# =============================================================================
+
+# Path to the whitelist file (contains apps to open)
+# Default: ${REPO_ROOT}/config/apps-to-open.txt
+WHITELIST_PATH="${REPO_ROOT}/config/apps-to-open.txt"
+
+# Path to primary app file (optional - this app opens first)
+# Leave empty to disable primary app feature
+# Default: empty
+PRIMARY_APP_PATH=""
+
+# Path to the AppleScript that performs the opening
+# Default: Automatically determined from script location
+APPLESCRIPT_PATH="${SCRIPT_DIR}/open-apps.applescript"
+
+# =============================================================================
+# LOGGING
+# =============================================================================
+
+# Log file location
+# Default: ${REPO_ROOT}/logs/open-apps.log
+LOG_PATH="${REPO_ROOT}/logs/open-apps.log"
+
+# Error log location
+# Default: ${REPO_ROOT}/logs/open-apps.err
+ERR_LOG_PATH="${REPO_ROOT}/logs/open-apps.err"
+
+# Log level: DEBUG, INFO, WARN, ERROR
+# Default: INFO
+LOG_LEVEL="INFO"
+
+# =============================================================================
+# BEHAVIOR
+# =============================================================================
+
+# Delay between launching each app (seconds)
+# Prevents overwhelming the system with simultaneous launches
+# Default: 0.2
+STAGGER_DELAY=0.2
+
+# Wait time after all apps are launched (seconds)
+# Allows apps to initialize before script exits
+# Default: 1.5
+POST_LAUNCH_DELAY=1.5
+
+# Skip apps that are already running
+# Default: true
+SKIP_RUNNING=true
+
+# =============================================================================
+# SCHEDULE (for launchd plist generation)
+# =============================================================================
+
+# Hour to run (24-hour format: 0-23)
+# Default: 8 (8:00 AM)
+SCHEDULE_HOUR=8
+
+# Minute to run (0-59)
+# Default: 0
+SCHEDULE_MINUTE=0
+
+# Days of week to run (optional, comma-separated)
+# 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+# Leave empty to run every day
+# Example: "1,2,3,4,5" for weekdays only
+SCHEDULE_WEEKDAYS=""

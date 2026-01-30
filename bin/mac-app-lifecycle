@@ -1,0 +1,129 @@
+#!/usr/bin/env bash
+# mac-app-lifecycle - CLI tool for managing macOS application lifecycle
+#
+# Version: 1.0.0-dev
+# Phase 1: Stub with help text (full implementation in Phase 4)
+
+set -euo pipefail
+
+VERSION="1.0.0-dev"
+
+# =============================================================================
+# HELP TEXT
+# =============================================================================
+
+show_help() {
+  cat << 'EOF'
+mac-app-lifecycle - Automated macOS Application Lifecycle Manager
+
+USAGE:
+  mac-app-lifecycle <command> [options]
+
+COMMANDS:
+  close               Close configured applications
+  open                Open whitelisted applications
+  status              Show launchd agent status
+  logs                Display recent logs
+  help                Show this help message
+  version             Show version information
+
+OPTIONS:
+  --now               Execute immediately (for close/open commands)
+  --dry-run           Show what would be done without executing
+  --verbose           Show detailed output
+  -h, --help          Show help for specific command
+
+EXAMPLES:
+  # Close all configured apps immediately
+  mac-app-lifecycle close --now
+
+  # Open whitelisted apps with verbose output
+  mac-app-lifecycle open --now --verbose
+
+  # Check launchd agent status
+  mac-app-lifecycle status
+
+  # View close-apps logs
+  mac-app-lifecycle logs close
+
+  # Dry-run to see what would happen
+  mac-app-lifecycle close --now --dry-run
+
+CONFIGURATION:
+  Config files:  config/
+  Log files:     logs/
+  Launch agents: ~/Library/LaunchAgents/
+
+DOCUMENTATION:
+  Installation:     docs/INSTALLATION.md
+  Configuration:    docs/CONFIGURATION.md
+  Troubleshooting:  docs/TROUBLESHOOTING.md
+
+For more information, visit:
+  https://github.com/yourusername/mac-app-lifecycle-manager
+EOF
+}
+
+show_version() {
+  echo "mac-app-lifecycle version ${VERSION}"
+  echo "Copyright (c) 2026"
+}
+
+# =============================================================================
+# STUB IMPLEMENTATION
+# =============================================================================
+
+stub_message() {
+  cat << 'EOF'
+
+┌──────────────────────────────────────────────────────────────┐
+│                                                              │
+│  PHASE 1: Foundation - CLI stub                             │
+│                                                              │
+│  This is a placeholder. Full implementation coming in       │
+│  Phase 4 of the migration plan.                             │
+│                                                              │
+│  See docs/MIGRATION_PLAN.md for details.                    │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
+
+EOF
+}
+
+# =============================================================================
+# MAIN
+# =============================================================================
+
+main() {
+  local command="${1:-}"
+
+  case "${command}" in
+    close|open|status|logs)
+      echo "Command: ${command}"
+      stub_message
+      exit 0
+      ;;
+    help|--help|-h)
+      show_help
+      exit 0
+      ;;
+    version|--version|-v)
+      show_version
+      exit 0
+      ;;
+    "")
+      echo "Error: No command specified"
+      echo ""
+      show_help
+      exit 1
+      ;;
+    *)
+      echo "Error: Unknown command '${command}'"
+      echo ""
+      show_help
+      exit 1
+      ;;
+  esac
+}
+
+main "$@"
