@@ -24,18 +24,23 @@ mac-app-lifecycle-manager/
 ├── scripts/
 │   ├── close-apps/
 │   │   ├── close-apps.applescript     # App closing logic
-│   │   ├── close-apps.sh              # Shell wrapper
-│   │   └── apps-to-close.txt          # List of apps to close
+│   │   └── close-apps.sh              # Shell wrapper
 │   ├── open-apps/
 │   │   ├── open-apps.applescript      # App opening logic
-│   │   ├── open-apps.sh               # Shell wrapper
-│   │   └── apps-to-open.txt           # Whitelist of apps to open
+│   │   └── open-apps.sh               # Shell wrapper
 │   └── lib/
 │       └── common.sh                  # Shared functions (logging, validation)
 ├── config/
-│   ├── close-apps.conf.example        # Template for close config
-│   ├── open-apps.conf.example         # Template for open config
+│   ├── close-apps.conf.example        # Template for close config (versioned)
+│   ├── close-apps.conf                # User config (gitignored)
+│   ├── open-apps.conf.example         # Template for open config (versioned)
+│   ├── open-apps.conf                 # User config (gitignored)
+│   ├── apps-to-close.txt.example      # Template (versioned)
+│   ├── apps-to-close.txt              # User list (gitignored)
+│   ├── apps-to-open.txt.example       # Template (versioned)
+│   ├── apps-to-open.txt               # User list (gitignored)
 │   └── README.md                      # Config documentation
+├── logs/                              # Log files (gitignored)
 ├── launchd/
 │   ├── com.user.mac-app-lifecycle.close.plist.template
 │   └── com.user.mac-app-lifecycle.open.plist.template
@@ -68,13 +73,14 @@ mac-app-lifecycle-manager/
 - `bin/mac-app-lifecycle` (stub with --help)
 - `config/close-apps.conf.example`
 - `config/open-apps.conf.example`
+- `config/apps-to-close.txt.example`
+- `config/apps-to-open.txt.example`
 - `config/README.md`
-- `scripts/close-apps/apps-to-close.txt.example`
-- `scripts/open-apps/apps-to-open.txt.example`
 - `scripts/lib/common.sh` (logging functions only)
 - `docs/CONFIGURATION.md`
 - `docs/INSTALLATION.md` (stub)
 - `docs/TROUBLESHOOTING.md` (stub)
+- `.gitignore` (add config/logs ignores)
 - Update `README.md`
 
 ### Commit Message:
@@ -213,9 +219,8 @@ Phase 4: CLI tool for manual operations and status checks
 ### Deliverables:
 1. ✅ Create `install.sh`:
    - Interactive prompts for schedule times
-   - Copy config templates to `~/.config/mac-app-lifecycle/`
-   - Create log directory: `~/Library/Logs/mac-app-lifecycle/`
-   - Copy app list files to config directory
+   - Copy `.example` templates to create `.conf` and `.txt` files in `config/`
+   - Create log directory: `logs/`
    - Generate plist files from templates with user's schedule
    - Copy plists to `~/Library/LaunchAgents/`
    - Set executable permissions
@@ -225,8 +230,8 @@ Phase 4: CLI tool for manual operations and status checks
 2. ✅ Create `uninstall.sh`:
    - Unload launchd agents
    - Remove plists from `~/Library/LaunchAgents/`
-   - Optionally remove config directory
-   - Optionally remove logs
+   - Optionally remove config files from `config/`
+   - Optionally remove logs from `logs/`
    - Confirmation prompts (especially for config/logs)
 3. ✅ Update `docs/INSTALLATION.md` with step-by-step guide
 4. ✅ Update `docs/TROUBLESHOOTING.md` with common issues

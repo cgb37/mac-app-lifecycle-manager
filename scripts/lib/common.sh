@@ -142,6 +142,7 @@ ensure_dir() {
 # Load configuration file with validation
 # Usage: load_config "/path/to/config.conf"
 # Returns: 0 if loaded successfully, 2 if config error
+# Note: Exports REPO_ROOT and SCRIPT_DIR for variable expansion in config
 load_config() {
   local config_file="$1"
   
@@ -150,6 +151,9 @@ load_config() {
   fi
   
   log_debug "Loading configuration from: ${config_file}"
+  
+  # Export REPO_ROOT and SCRIPT_DIR for use in config file
+  export REPO_ROOT SCRIPT_DIR
   
   # Source the config file
   # shellcheck source=/dev/null
