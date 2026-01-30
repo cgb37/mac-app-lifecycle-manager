@@ -13,26 +13,40 @@ This project provides a modern, config-driven system for managing your Mac's app
 - **CLI tool** - Manual operations via `mac-app-lifecycle` command
 - **launchd integration** - Native macOS scheduling via LaunchAgents
 
-## Current Status: Phase 1 - Foundation ✅
+## Current Status: Phase 3 Complete ✅
 
 This is an active migration from legacy AppleScript-based automation into a unified, portable system.
 
-**Completed:**
+**Phase 1 - Foundation:** ✅ Complete
 - ✅ Directory structure (bin/, scripts/, config/, launchd/, docs/)
 - ✅ Configuration templates with all parameters documented
 - ✅ App list file examples with three-tier closing strategy
 - ✅ Shared library for logging and validation
 - ✅ CLI stub with help text
-- ✅ Comprehensive documentation (CONFIGURATION.md, INSTALLATION.md, TROUBLESHOOTING.md)
+- ✅ Comprehensive documentation
 
-**Coming Next (Phase 2):**
-- Close-apps implementation with AppleScript + shell wrapper
-- Config-driven design with structured logging
-- launchd plist template
+**Phase 2 - Close-Apps Implementation:** ✅ Complete
+- ✅ AppleScript with three-tier closing logic (name/path/force)
+- ✅ Shell wrapper with config loading and validation
+- ✅ Structured logging with timestamps
+- ✅ launchd plist template
+- ✅ Tested successfully (closed 12 running apps)
+
+**Phase 3 - Open-Apps Implementation:** ✅ Complete
+- ✅ AppleScript with configurable delays and skip-running option
+- ✅ Shell wrapper matching close-apps structure
+- ✅ Optional primary app feature
+- ✅ launchd plist template
+- ✅ Tested successfully (launched 2 apps, skipped 3 running)
+
+**Coming Next (Phase 4):**
+- CLI tool implementation with subcommands (close, open, status, logs)
+- Dry-run and verbose modes
+- Installation validation
 
 See [docs/MIGRATION_PLAN.md](docs/MIGRATION_PLAN.md) for the complete 7-phase roadmap.
 
-## Quick Start (Phase 1 Development)
+## Quick Start (Phases 1-3 Complete)
 
 ```bash
 # Clone repository
@@ -51,9 +65,15 @@ mkdir -p logs
 # Edit configs and app lists
 vim config/close-apps.conf
 vim config/apps-to-close.txt
+vim config/apps-to-open.txt
 
-# Test CLI (stub for now)
-./bin/mac-app-lifecycle --help
+# Test scripts manually
+./scripts/close-apps/close-apps.sh
+./scripts/open-apps/open-apps.sh
+
+# View logs
+tail -f logs/close-apps.log
+tail -f logs/open-apps.log
 ```
 
 ## Architecture
@@ -123,11 +143,11 @@ mac-app-lifecycle-manager/
 │   └── mac-app-lifecycle              # CLI tool (stub in Phase 1, full in Phase 4)
 ├── scripts/
 │   ├── close-apps/
-│   │   ├── close-apps.applescript     # Coming in Phase 2
-│   │   └── close-apps.sh              # Coming in Phase 2
+│   │   ├── close-apps.applescript     # ✅ Phase 2 - Three-tier closing logic
+│   │   └── close-apps.sh              # ✅ Phase 2 - Shell wrapper
 │   ├── open-apps/
-│   │   ├── open-apps.applescript      # Coming in Phase 3
-│   │   └── open-apps.sh               # Coming in Phase 3
+│   │   ├── open-apps.applescript      # ✅ Phase 3 - App opening with delays
+│   │   └── open-apps.sh               # ✅ Phase 3 - Shell wrapper
 │   └── lib/
 │       └── common.sh                  # ✅ Shared logging & validation
 ├── config/
@@ -138,7 +158,8 @@ mac-app-lifecycle-manager/
 │   └── README.md                      # ✅ Config documentation
 ├── logs/                              # Log files (gitignored)
 ├── launchd/
-│   └── *.plist.template               # Coming in Phase 2-3
+│   ├── *.close.plist.template         # ✅ Phase 2 - Close-apps template
+│   └── *.open.plist.template          # ✅ Phase 3 - Open-apps template
 ├── docs/
 │   ├── CONFIGURATION.md               # ✅ Complete config reference
 │   ├── INSTALLATION.md                # ✅ Stub (full version in Phase 5)
@@ -161,15 +182,17 @@ mac-app-lifecycle-manager/
 - Automation (per-app approval)
 - Full Disk Access (may be needed for Terminal.app)
 
-## Features (Target for v1.0.0)
+## Features (Progress Toward v1.0.0)
 
 - ✅ Config-driven paths and schedules
 - ✅ Support for all three app-closing strategies
 - ✅ Structured logging with timestamps
 - ✅ Comprehensive error handling
+- ✅ **Close-apps automation** (Phase 2 complete)
+- ✅ **Open-apps automation** (Phase 3 complete)
 - 🚧 Automated installation/uninstall (Phase 5)
 - 🚧 CLI tool for manual operations (Phase 4)
-- 🚧 launchd integration for scheduling (Phase 2-3)
+- 🚧 launchd integration setup automation (Phase 5)
 - 🚧 User documentation with examples (Phase 6-7)
 
 ## Contributing
