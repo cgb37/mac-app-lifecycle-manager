@@ -15,7 +15,7 @@ This project provides a modern, config-driven system for managing your Mac's app
 - **CLI tool** - Manual operations via `mac-app-lifecycle` command
 - **launchd integration** - Native macOS scheduling via LaunchAgents
 
-## Current Status: Phase 3 Complete ✅
+## Current Status: Phase 5 Complete ✅
 
 This is an active migration from legacy AppleScript-based automation into a unified, portable system.
 
@@ -41,41 +41,40 @@ This is an active migration from legacy AppleScript-based automation into a unif
 - ✅ launchd plist template
 - ✅ Tested successfully (launched 2 apps, skipped 3 running)
 
-**Coming Next (Phase 4):**
-- CLI tool implementation with subcommands (close, open, status, logs)
-- Dry-run and verbose modes
-- Installation validation
+**Phase 4 - CLI Tool Implementation:** ✅ Complete
+- ✅ Full CLI with subcommands (close, open, status, logs)
+- ✅ Dry-run and verbose modes
+- ✅ Installation validation
+- ✅ Comprehensive error handling and colored output
+
+**Phase 5 - Installation & Uninstall Scripts:** ✅ Complete
+- ✅ Interactive `install.sh` with schedule configuration
+- ✅ Automated setup (configs, plists, permissions, launchd loading)
+- ✅ Complete `uninstall.sh` with confirmation prompts
+- ✅ Installation validation and permission instructions
+- ✅ Updated documentation (INSTALLATION.md, TROUBLESHOOTING.md)
+
+**Coming Next (Phase 6):**
+- Edge case testing and validation
+- Performance optimization
+- User documentation validation
 
 See [docs/MIGRATION_PLAN.md](docs/MIGRATION_PLAN.md) for the complete 7-phase roadmap.
 
-## Quick Start (Phases 1-3 Complete)
+## Quick Start (Phase 5 Complete)
 
 ```bash
 # Clone repository
 git clone <repository-url>
 cd mac-app-lifecycle-manager
 
-# Copy config templates (creates gitignored local configs)
-cp config/close-apps.conf.example config/close-apps.conf
-cp config/open-apps.conf.example config/open-apps.conf
-cp config/apps-to-close.txt.example config/apps-to-close.txt
-cp config/apps-to-open.txt.example config/apps-to-open.txt
+# Run automated installation
+./install.sh
 
-# Create log directory
-mkdir -p logs
-
-# Edit configs and app lists
-vim config/close-apps.conf
-vim config/apps-to-close.txt
-vim config/apps-to-open.txt
-
-# Test scripts manually
-./scripts/close-apps/close-apps.sh
-./scripts/open-apps/open-apps.sh
-
-# View logs
-tail -f logs/close-apps.log
-tail -f logs/open-apps.log
+# Configure macOS permissions (see instructions from install.sh)
+# Then test the system
+./bin/mac-app-lifecycle status
+./bin/mac-app-lifecycle close --now
 ```
 
 ## Architecture
@@ -165,11 +164,11 @@ mac-app-lifecycle-manager/
 │   └── *.open.plist.template          # ✅ Phase 3 - Open-apps template
 ├── docs/
 │   ├── CONFIGURATION.md               # ✅ Complete config reference
-│   ├── INSTALLATION.md                # ✅ Stub (full version in Phase 5)
-│   ├── TROUBLESHOOTING.md             # ✅ Stub (expanded during testing)
+│   ├── INSTALLATION.md                # ✅ Complete installation guide
+│   ├── TROUBLESHOOTING.md             # ✅ Complete troubleshooting guide
 │   └── MIGRATION_PLAN.md              # ✅ 7-phase roadmap
-├── install.sh                         # Coming in Phase 5
-├── uninstall.sh                       # Coming in Phase 5
+├── install.sh                         # ✅ Phase 5 - Installation script
+├── uninstall.sh                       # ✅ Phase 5 - Uninstallation script
 └── original-scripts-to-be-migrated/   # Legacy implementation (reference)
 ```
 
@@ -193,9 +192,9 @@ mac-app-lifecycle-manager/
 - ✅ Comprehensive error handling
 - ✅ **Close-apps automation** (Phase 2 complete)
 - ✅ **Open-apps automation** (Phase 3 complete)
-- 🚧 Automated installation/uninstall (Phase 5)
-- 🚧 CLI tool for manual operations (Phase 4)
-- 🚧 launchd integration setup automation (Phase 5)
+- ✅ **CLI tool for manual operations** (Phase 4 complete)
+- ✅ **Automated installation/uninstall** (Phase 5 complete)
+- ✅ **launchd integration setup automation** (Phase 5 complete)
 - 🚧 User documentation with examples (Phase 6-7)
 
 ## Contributing
