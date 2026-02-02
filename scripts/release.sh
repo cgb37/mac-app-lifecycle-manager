@@ -26,6 +26,11 @@ PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 # Ensure we're in the project root
 cd "${PROJECT_ROOT}"
 
+# Debug: Check if GITHUB_TOKEN is in environment
+if [ -n "${GITHUB_TOKEN:-}" ]; then
+    echo -e "${GREEN}✓ GITHUB_TOKEN found in environment (${#GITHUB_TOKEN} chars)${NC}"
+fi
+
 # Load .env file if it exists and GITHUB_TOKEN is not already set
 if [ -z "${GITHUB_TOKEN:-}" ] && [ -f ".env" ]; then
     echo -e "${YELLOW}Loading GITHUB_TOKEN from .env file...${NC}"
