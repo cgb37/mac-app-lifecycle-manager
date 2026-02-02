@@ -16,7 +16,6 @@
   "author": "Charles Brown Roberts",
   "license": "MIT",
   "scripts": {
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "release": "bash ./scripts/release.sh",
     "release:major": "bash ./scripts/release.sh major",
     "release:minor": "bash ./scripts/release.sh minor",
