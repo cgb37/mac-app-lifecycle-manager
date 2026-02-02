@@ -200,13 +200,13 @@ Phase 3: Open-apps implementation with unified approach
   - `npm run test:close-apps` - Syntax check + dry-run test
   - Release management scripts (`npm run release`, etc.)
 
-### Phase 4.1: Core Command Structure ✅ COMPLETE
-- ✅ Self-discovery mechanism implemented
-- ✅ Real command parsing with validation
-- ✅ Installation validation function added
-- ✅ Command handler stubs created
-- ✅ Help and version updated with dynamic paths
-- ✅ **Bonus**: Version now reads dynamically from package.json
+### Phase 4.2: Close/Open Commands ✅ COMPLETE
+- ✅ Implemented `close` command handler with option parsing
+- ✅ Implemented `open` command handler with option parsing
+- ✅ Added `--now`, `--dry-run`, `--verbose` option support
+- ✅ Added config file validation before execution
+- ✅ Added proper error handling and exit codes
+- ✅ Tested integration with shell wrappers (DRY_RUN and LOG_LEVEL=DEBUG)
 
 ### Key Features:
 - Invoke shell wrappers with proper error handling
@@ -405,7 +405,7 @@ Update `.github/copilot-instructions.md` after Phase 5 with:
 **Phase 1 Complete:** Structure exists, configs documented, can proceed with implementation
 **Phase 2 Complete:** Close-apps works manually, no errors in logs
 **Phase 3 Complete:** Open-apps works manually, consistent with close-apps
-**Phase 4 Complete:** CLI tool works for all operations, clear output (npm scripts added as development shortcuts, but main CLI tool not yet implemented)
+**Phase 4 Complete:** CLI tool works for all operations, clear output (close/open commands implemented with full option support)
 **Phase 5 Complete:** Fresh installation succeeds, uninstall removes everything
 **Phase 6 Complete:** Edge cases handled, documentation accurate
 **Phase 7 Complete:** Ready for public use, all docs validated
