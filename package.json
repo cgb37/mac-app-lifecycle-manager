@@ -25,8 +25,8 @@
     "test": "bash ./tests/test-release-it.sh"
   },
   "devDependencies": {
-    "@release-it/conventional-changelog": "^8.0.2",
+    "@release-it/conventional-changelog": "^10.0.4",
     "conventional-changelog-cli": "^5.0.0",
-    "release-it": "^17.7.0"
+    "release-it": "^19.2.4"
   }
 }
