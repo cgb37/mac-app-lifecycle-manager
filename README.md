@@ -1,5 +1,7 @@
 # macOS App Lifecycle Manager
 
+**Version: **0.1.0****
+
 Automated macOS application lifecycle management through scheduled closing and whitelist-based opening of applications.
 
 ## Overview
@@ -198,6 +200,20 @@ mac-app-lifecycle-manager/
 ## Contributing
 
 This project is currently in active migration. See [docs/MIGRATION_PLAN.md](docs/MIGRATION_PLAN.md) for development roadmap.
+
+### Releases
+
+This project uses [Conventional Commits](https://www.conventionalcommits.org/) and automated releases via [release-it](https://github.com/release-it/release-it).
+
+**Quick release:**
+```bash
+npm run release        # Interactive (auto-detects version bump)
+npm run release:patch  # Patch version (0.1.0 → 0.1.1)
+npm run release:minor  # Minor version (0.1.0 → 0.2.0)
+npm run release:major  # Major version (0.1.0 → 1.0.0)
+```
+
+See [docs/RELEASE_PROCESS.md](docs/RELEASE_PROCESS.md) for complete release documentation.
 
 ## Original Implementation
 
