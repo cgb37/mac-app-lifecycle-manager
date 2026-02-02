@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 
+## [0.0.12](https://github.com/cgb37/mac-app-lifecycle-manager/compare/v0.0.11...v0.0.12) (2026-02-02)
+
+
+### Features
+
+* **changelog:** add details for version 0.0.11 release ([bd46c5f](https://github.com/cgb37/mac-app-lifecycle-manager/commit/bd46c5ffce072a0f4152694ba32cc619ed76448b)), closes [#10](https://github.com/cgb37/mac-app-lifecycle-manager/issues/10)
+* **changelog:** remove details of version 0.0.11 ([ae7883e](https://github.com/cgb37/mac-app-lifecycle-manager/commit/ae7883ebe0bb3570efd4ba55281ab3928a22a82b))
+
 ## [0.0.11](https://github.com/cgb37/mac-app-lifecycle-manager/compare/v0.0.9...v0.0.11) (2026-02-02)
 
 
