@@ -1,0 +1,32 @@
+{
+  "name": "mac-app-lifecycle-manager",
+  "version": "0.1.0",
+  "description": "Automated macOS application lifecycle management through scheduled closing and whitelist-based opening",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/charlesbrownroberts/mac-app-lifecycle-manager.git"
+  },
+  "keywords": [
+    "macos",
+    "automation",
+    "applescript",
+    "launchd",
+    "app-management"
+  ],
+  "author": "Charles Brown Roberts",
+  "license": "MIT",
+  "scripts": {
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "release": "bash ./scripts/release.sh",
+    "release:major": "bash ./scripts/release.sh major",
+    "release:minor": "bash ./scripts/release.sh minor",
+    "release:patch": "bash ./scripts/release.sh patch",
+    "release:set": "bash ./scripts/release.sh set",
+    "test": "bash ./tests/test-release-it.sh"
+  },
+  "devDependencies": {
+    "@release-it/conventional-changelog": "^8.0.2",
+    "conventional-changelog-cli": "^5.0.0",
+    "release-it": "^17.7.0"
+  }
+}
