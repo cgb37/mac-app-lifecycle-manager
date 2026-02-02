@@ -154,12 +154,12 @@ LOG_DIR="$REPO_ROOT/logs"
 **Goal**: Implement close and open functionality
 
 **Tasks**:
-- [ ] Implement `close` command handler
-- [ ] Implement `open` command handler
-- [ ] Add `--now` option support
-- [ ] Add `--dry-run` support (pass DRY_RUN env var)
-- [ ] Add `--verbose` support (pass VERBOSE env var)
-- [ ] Test integration with shell wrappers
+- [x] Implement `close` command handler
+- [x] Implement `open` command handler
+- [x] Add `--now` option support
+- [x] Add `--dry-run` support (pass DRY_RUN env var)
+- [x] Add `--verbose` support (pass LOG_LEVEL=DEBUG env var)
+- [x] Test integration with shell wrappers
 
 **Integration Points**:
 - `./scripts/close-apps/close-apps.sh`
@@ -306,13 +306,13 @@ After implementation:
 
 ## Success Criteria
 
-- [ ] All commands work as specified
-- [ ] Options (`--now`, `--dry-run`, `--verbose`) function correctly
-- [ ] Installation validation prevents operations when misconfigured
-- [ ] Error messages are clear and actionable
-- [ ] Exit codes are consistent and documented
-- [ ] Integration with existing shell wrappers works seamlessly
-- [ ] Manual testing passes all scenarios
+- [x] All commands work as specified
+- [x] Options (`--now`, `--dry-run`, `--verbose`) function correctly
+- [x] Installation validation prevents operations when misconfigured
+- [x] Error messages are clear and actionable
+- [x] Exit codes are consistent and documented
+- [x] Integration with existing shell wrappers works seamlessly
+- [x] Manual testing passes all scenarios
 
 ## Team Usage & Future Scalability
 
