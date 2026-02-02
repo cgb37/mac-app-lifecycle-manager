@@ -163,3 +163,12 @@ As issues are discovered during migration, document them here with:
 - Root cause
 - Solution or workaround
 - Files affected
+
+## IMPORTANT: Changelog Management
+
+**DO NOT manually edit CHANGELOG.md** - This file is managed by automated release tooling (`release-it` with `@release-it/conventional-changelog`). 
+
+- Changes are automatically generated from conventional commit messages
+- Manual edits will be overwritten on next release
+- Document new features/fixes in commit messages using [Conventional Commits](https://conventionalcommits.org) format
+- For documentation of changes, update relevant docs in `docs/` directory instead
