@@ -85,18 +85,29 @@ BREAKING CHANGE: Configuration file now requires YAML format"
 
 ### 3. GitHub Authentication
 
-Ensure you have a GitHub personal access token configured:
+You have two options for providing your GitHub token:
 
+**Option A: Shell Environment (Recommended)**
 ```bash
+# Add to ~/.zshrc for persistence
+export GITHUB_TOKEN="your_token_here"
+
+# Or set for current session
 export GITHUB_TOKEN="your_token_here"
 ```
 
-Or configure in `.env` file:
+**Option B: .env File**
 ```bash
-echo "GITHUB_TOKEN=your_token" >> .env
+# Copy example and add your token
+cp .env.example .env
+vim .env  # Add your token
+
+# The release script will automatically load it
 ```
 
-Create token at: https://github.com/settings/tokens (needs `repo` scope)
+**Priority:** Shell environment variables take precedence over `.env` file.
+
+**Create token at:** https://github.com/settings/tokens (needs `repo` scope)
 
 ---
 
