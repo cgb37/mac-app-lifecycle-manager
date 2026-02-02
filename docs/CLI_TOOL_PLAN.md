@@ -183,11 +183,11 @@ LOG_DIR="$REPO_ROOT/logs"
 **Goal**: Display recent logs
 
 **Tasks**:
-- [ ] Implement `logs close` - tail close-apps.log
-- [ ] Implement `logs open` - tail open-apps.log
-- [ ] Add log file validation
-- [ ] Format log output with timestamps
-- [ ] Handle missing log files gracefully
+- [x] Implement `logs close` - tail close-apps.log
+- [x] Implement `logs open` - tail open-apps.log
+- [x] Add log file validation
+- [x] Format log output with timestamps
+- [x] Handle missing log files gracefully
 
 **Log locations**:
 - `logs/close-apps.log`
