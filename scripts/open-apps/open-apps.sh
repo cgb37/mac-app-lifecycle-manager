@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # open-apps.sh - Shell wrapper for open-apps automation
 # Part of mac-app-lifecycle-manager
-# Version: 0.0.9
+# Version: 0.0.11
 #
 # This script loads configuration, validates files, and invokes the AppleScript
 # to open whitelisted applications.
