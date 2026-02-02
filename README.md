@@ -217,10 +217,10 @@ vim .env  # Add your token
 
 **Quick release:**
 ```bash
-npm run release        # Interactive (auto-detects version bump)
-npm run release:patch  # Patch version (0.1.0 → 0.1.1)
-npm run release:minor  # Minor version (0.1.0 → 0.2.0)
-npm run release:major  # Major version (0.1.0 → 1.0.0)
+./scripts/release.sh        # Interactive (auto-detects version bump)
+./scripts/release.sh patch  # Patch version (0.1.0 → 0.1.1)
+./scripts/release.sh minor  # Minor version (0.1.0 → 0.2.0)
+./scripts/release.sh major  # Major version (0.1.0 → 1.0.0)
 ```
 
 See [docs/RELEASE_PROCESS.md](docs/RELEASE_PROCESS.md) for complete release documentation.

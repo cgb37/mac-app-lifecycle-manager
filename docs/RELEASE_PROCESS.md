@@ -116,7 +116,7 @@ vim .env  # Add your token
 ### Interactive Release (Recommended)
 
 ```bash
-npm run release
+./scripts/release.sh
 ```
 
 - **Auto-detects** version bump from commits
@@ -126,9 +126,9 @@ npm run release
 ### Force Specific Version Bump
 
 ```bash
-npm run release:major  # 0.1.0 → 1.0.0
-npm run release:minor  # 0.1.0 → 0.2.0
-npm run release:patch  # 0.1.0 → 0.1.1
+./scripts/release.sh major  # 0.1.0 → 1.0.0
+./scripts/release.sh minor  # 0.1.0 → 0.2.0
+./scripts/release.sh patch  # 0.1.0 → 0.1.1
 ```
 
 Use when you want to **override** auto-detection.
@@ -136,7 +136,7 @@ Use when you want to **override** auto-detection.
 ### Set Custom Version
 
 ```bash
-npm run release:set
+./scripts/release.sh set
 ```
 
 Prompts for **exact version** to set (e.g., 1.0.0-beta.1).
@@ -172,7 +172,7 @@ git pull origin main
 ### Step 3: Run Release
 
 ```bash
-npm run release
+./scripts/release.sh
 ```
 
 ### Step 4: Verify Release
