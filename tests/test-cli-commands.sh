@@ -240,6 +240,55 @@ test_logs_command_stub() {
   fi
 }
 
+test_plist_command_stub() {
+  test_start "Plist command functionality"
+
+  # Test plist command without subcommand (should show error)
+  local output
+  local exit_code
+  output=$("$CLI_SCRIPT" plist 2>&1) || exit_code=$?
+
+  if [[ ${exit_code:-0} -eq 1 ]]; then
+    test_pass "Plist command without subcommand returns exit code 1"
+  else
+    test_fail "Plist command without subcommand should return exit code 1, got ${exit_code:-0}"
+    return 1
+  fi
+
+  if echo "$output" | grep -q "Please specify 'close' or 'open' plist"; then
+    test_pass "Plist command shows appropriate error message for missing subcommand"
+  else
+    test_fail "Plist command does not show appropriate error message for missing subcommand"
+    return 1
+  fi
+
+  # Test plist close command
+  if output=$("$CLI_SCRIPT" plist close 2>&1); then
+    if echo "$output" | grep -q "Close Apps Plist Configuration"; then
+      test_pass "Plist close command shows header"
+    else
+      test_fail "Plist close command does not show expected header"
+      return 1
+    fi
+  else
+    test_fail "Plist close command failed to execute"
+    return 1
+  fi
+
+  # Test plist open command
+  if output=$("$CLI_SCRIPT" plist open 2>&1); then
+    if echo "$output" | grep -q "Open Apps Plist Configuration"; then
+      test_pass "Plist open command shows header"
+    else
+      test_fail "Plist open command does not show expected header"
+      return 1
+    fi
+  else
+    test_fail "Plist open command failed to execute"
+    return 1
+  fi
+}
+
 # =============================================================================
 # MAIN
 # =============================================================================
@@ -256,6 +305,7 @@ main() {
   test_no_command
   test_status_command_stub
   test_logs_command_stub
+  test_plist_command_stub
 
   # Summary
   echo ""

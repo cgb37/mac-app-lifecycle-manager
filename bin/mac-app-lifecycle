@@ -170,6 +170,7 @@ COMMANDS:
   close               Close configured applications
   open                Open whitelisted applications
   status              Show launchd agent status
+  plist               Show launchd plist configuration
   logs                Display recent logs
   help                Show this help message
   version             Show version information
@@ -190,6 +191,9 @@ EXAMPLES:
   # Check launchd agent status
   mac-app-lifecycle status
 
+  # View plist configuration
+  mac-app-lifecycle plist close
+
   # View close-apps logs
   mac-app-lifecycle logs close
 
@@ -202,9 +206,10 @@ CONFIGURATION:
   Launch agents: ~/Library/LaunchAgents/
 
 DOCUMENTATION:
-  Installation:     docs/INSTALLATION.md
-  Configuration:    docs/CONFIGURATION.md
-  Troubleshooting:  docs/TROUBLESHOOTING.md
+  Commands Reference:     docs/COMMANDS.md
+  Installation:           docs/INSTALLATION.md
+  Configuration:          docs/CONFIGURATION.md
+  Troubleshooting:        docs/TROUBLESHOOTING.md
 
 For more information, visit:
   https://github.com/yourusername/mac-app-lifecycle-manager
@@ -517,6 +522,93 @@ handle_status() {
     echo "      This command only shows current status"
 }
 
+handle_plist() {
+    verbose "DEBUG" "Handling plist command with args: $*"
+
+    local subcommand="${1:-}"
+
+    case "$subcommand" in
+        close)
+            show_close_plist
+            ;;
+        open)
+            show_open_plist
+            ;;
+        "")
+            error "Please specify 'close' or 'open' plist"
+            echo "Usage: mac-app-lifecycle plist <close|open>" >&2
+            echo "" >&2
+            echo "Available subcommands:" >&2
+            echo "  close    Show close-apps plist configuration" >&2
+            echo "  open     Show open-apps plist configuration" >&2
+            echo "" >&2
+            echo "Examples:" >&2
+            echo "  mac-app-lifecycle plist close" >&2
+            echo "  mac-app-lifecycle plist open" >&2
+            exit 1
+            ;;
+        *)
+            error "Unknown plist subcommand '$subcommand'"
+            echo "Usage: mac-app-lifecycle plist <close|open>" >&2
+            echo "" >&2
+            echo "Available subcommands:" >&2
+            echo "  close    Show close-apps plist configuration" >&2
+            echo "  open     Show open-apps plist configuration" >&2
+            exit 1
+            ;;
+    esac
+}
+
+show_close_plist() {
+    verbose "DEBUG" "Showing close-apps plist"
+
+    local plist_file="$HOME/Library/LaunchAgents/com.user.mac-app-lifecycle.close.plist"
+
+    echo "Close Apps Plist Configuration"
+    echo "=============================="
+    echo "Plist file: $plist_file"
+    echo ""
+
+    if [[ -f "$plist_file" ]]; then
+        if [[ -r "$plist_file" ]]; then
+            echo "Contents:"
+            echo ""
+            cat "$plist_file"
+        else
+            error "Plist file is not readable: $plist_file"
+            echo "Check file permissions: ls -la $plist_file" >&2
+        fi
+    else
+        warning "Plist file does not exist: $plist_file"
+        echo "Run the installation script to create it: ./install.sh" >&2
+    fi
+}
+
+show_open_plist() {
+    verbose "DEBUG" "Showing open-apps plist"
+
+    local plist_file="$HOME/Library/LaunchAgents/com.user.mac-app-lifecycle.open.plist"
+
+    echo "Open Apps Plist Configuration"
+    echo "============================="
+    echo "Plist file: $plist_file"
+    echo ""
+
+    if [[ -f "$plist_file" ]]; then
+        if [[ -r "$plist_file" ]]; then
+            echo "Contents:"
+            echo ""
+            cat "$plist_file"
+        else
+            error "Plist file is not readable: $plist_file"
+            echo "Check file permissions: ls -la $plist_file" >&2
+        fi
+    else
+        warning "Plist file does not exist: $plist_file"
+        echo "Run the installation script to create it: ./install.sh" >&2
+    fi
+}
+
 handle_logs() {
     verbose "DEBUG" "Handling logs command with args: $*"
 
@@ -636,6 +728,9 @@ parse_command() {
         status)
             handle_status "$@"
             ;;
+        plist)
+            handle_plist "$@"
+            ;;
         logs)
             handle_logs "$@"
             ;;
@@ -652,6 +747,7 @@ parse_command() {
             echo "  close    Close applications listed in config" >&2
             echo "  open     Open applications from whitelist" >&2
             echo "  status   Show current status of launchd agents" >&2
+            echo "  plist    Show launchd plist configuration" >&2
             echo "  logs     Show application logs" >&2
             echo "  help     Show this help message" >&2
             echo "  version  Show version information" >&2
