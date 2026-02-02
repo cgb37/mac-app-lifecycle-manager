@@ -181,16 +181,19 @@ Phase 3: Open-apps implementation with unified approach
 **Goal:** Create user-facing CLI for manual operations.
 
 ### Deliverables:
-1. 🚧 Implement `bin/mac-app-lifecycle` with subcommands:
+1. ✅ Implement `bin/mac-app-lifecycle` with subcommands:
    - `close [--now]` - Close apps immediately
    - `open [--now]` - Open apps immediately
    - `status` - Show launchd agent status
    - `logs [close|open]` - Display recent logs
    - `--help` - Show usage
    - `--version` - Show version
-2. 🚧 Add dry-run mode: `--dry-run`
-3. 🚧 Add verbose mode: `--verbose`
-4. 🚧 Validate installation before operations
+2. ✅ Add dry-run mode: `--dry-run`
+3. ✅ Add verbose mode: `--verbose`
+4. ✅ Validate installation before operations
+5. ✅ Add comprehensive error messages and troubleshooting
+6. ✅ Implement colored output support
+7. ✅ Handle edge cases (missing configs, permissions)
 
 ### Development Tools Added:
 - ✅ Added npm scripts in `package.json` for development/testing:
@@ -200,13 +203,12 @@ Phase 3: Open-apps implementation with unified approach
   - `npm run test:close-apps` - Syntax check + dry-run test
   - Release management scripts (`npm run release`, etc.)
 
-### Phase 4.2: Close/Open Commands ✅ COMPLETE
-- ✅ Implemented `close` command handler with option parsing
-- ✅ Implemented `open` command handler with option parsing
-- ✅ Added `--now`, `--dry-run`, `--verbose` option support
-- ✅ Added config file validation before execution
-- ✅ Added proper error handling and exit codes
-- ✅ Tested integration with shell wrappers (DRY_RUN and LOG_LEVEL=DEBUG)
+### Phase Breakdown (Completed):
+- ✅ **Phase 4.1**: Core Command Structure - Self-discovery, command parsing, installation validation
+- ✅ **Phase 4.2**: Close/Open Commands - Full option parsing, config validation, error handling
+- ✅ **Phase 4.3**: Status Command - Launchd agent status checking
+- ✅ **Phase 4.4**: Logs Command - Log file display with formatting
+- ✅ **Phase 4.5**: Error Handling & Polish - Colored output, comprehensive errors, verbose mode
 
 ### Key Features:
 - Invoke shell wrappers with proper error handling
@@ -214,6 +216,9 @@ Phase 3: Open-apps implementation with unified approach
 - Check if launchd agents are loaded
 - Tail log files with formatting
 - Exit codes for scripting
+- Comprehensive error messages with troubleshooting steps
+- Verbose debugging output
+- Edge case handling (missing files, permissions)
 
 ### Commit Message:
 ```
@@ -224,6 +229,8 @@ Phase 4: CLI tool for manual operations and status checks
 - Add dry-run and verbose modes
 - Pretty console output with error handling
 - Validate installation and configs before operations
+- Add comprehensive error messages and colored output
+- Handle edge cases and permissions issues
 ```
 
 ---
@@ -405,7 +412,7 @@ Update `.github/copilot-instructions.md` after Phase 5 with:
 **Phase 1 Complete:** Structure exists, configs documented, can proceed with implementation
 **Phase 2 Complete:** Close-apps works manually, no errors in logs
 **Phase 3 Complete:** Open-apps works manually, consistent with close-apps
-**Phase 4 Complete:** CLI tool works for all operations, clear output (close/open commands implemented with full option support)
+**Phase 4 Complete:** CLI tool works for all operations (close/open/status/logs), with comprehensive error handling, colored output, and full option support (--dry-run, --verbose)
 **Phase 5 Complete:** Fresh installation succeeds, uninstall removes everything
 **Phase 6 Complete:** Edge cases handled, documentation accurate
 **Phase 7 Complete:** Ready for public use, all docs validated
