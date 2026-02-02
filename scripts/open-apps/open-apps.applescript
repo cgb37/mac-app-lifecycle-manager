@@ -93,10 +93,10 @@ on run argv
 				end repeat
 			end if
 			
-			if shouldLaunch then
-				tell application primaryAppPath to activate
-				delay staggerDelay
-			end if
+				if shouldLaunch then
+					tell application primaryAppPath to activate
+					delay staggerDelay
+				end if
 		on error errMsg
 			log "WARN: Failed to launch primary app: " & errMsg
 		end try
