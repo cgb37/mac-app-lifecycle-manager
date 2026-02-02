@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # common.sh - Shared utility functions for mac-app-lifecycle scripts
-# Version: 2.0.0
+# Version: 0.0.9
 #
 # This library provides standardized logging, error handling, and validation
 # functions used across all scripts in the mac-app-lifecycle system.

@@ -1,6 +1,6 @@
 {
   "name": "mac-app-lifecycle-manager",
-  "version": "2.0.0",
+  "version": "0.0.9",
   "description": "Automated macOS application lifecycle management through scheduled closing and whitelist-based opening",
   "repository": {
     "type": "git",
