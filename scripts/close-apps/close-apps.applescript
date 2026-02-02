@@ -101,10 +101,10 @@ on run argv
 		set appPath to appPath as text
 		try
 			log "INFO: Closing " & appPath
-			with timeout of quitTimeout seconds
-				tell application appPath to quit
-			end timeout
-			delay closeDelay
+				with timeout of quitTimeout seconds
+					tell application appPath to quit
+				end timeout
+				delay closeDelay
 		on error errMsg
 			log "WARN: Failed to close " & appPath & ": " & errMsg
 		end try
