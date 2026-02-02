@@ -32,6 +32,16 @@ ERR_LOG_PATH="${REPO_ROOT}/logs/close-apps.err"
 # Default: INFO
 LOG_LEVEL="INFO"
 
+# Log retention period (days)
+# Logs older than this will be deleted during rotation
+# Default: 14
+LOG_RETENTION_DAYS=14
+
+# Maximum log file size (MB) before rotation
+# Set to 0 to disable size-based rotation (age-based only)
+# Default: 10
+MAX_LOG_SIZE_MB=10
+
 # =============================================================================
 # BEHAVIOR
 # =============================================================================
