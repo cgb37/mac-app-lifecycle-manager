@@ -169,11 +169,11 @@ LOG_DIR="$REPO_ROOT/logs"
 **Goal**: Show launchd agent status (read-only)
 
 **Tasks**:
-- [ ] Check if launchd agents are loaded (`launchctl list`)
-- [ ] Show agent status (loaded/unloaded)
-- [ ] Display next scheduled run times (if available)
-- [ ] Show plist file locations
-- [ ] **Do NOT include load/unload functionality** (handled by install scripts)
+- [x] Check if launchd agents are loaded (`launchctl list`)
+- [x] Show agent status (loaded/unloaded)
+- [x] Display next scheduled run times (if available)
+- [x] Show plist file locations
+- [x] **Do NOT include load/unload functionality** (handled by install scripts)
 
 **Commands to use**:
 - `launchctl list com.user.mac-app-lifecycle.close`
