@@ -131,6 +131,7 @@ See [docs/CONFIGURATION.md](docs/CONFIGURATION.md) for complete reference.
 
 ## Documentation
 
+- **[COMMANDS.md](docs/COMMANDS.md)** - Complete commands reference and cheatsheet
 - **[CONFIGURATION.md](docs/CONFIGURATION.md)** - Complete configuration reference
 - **[INSTALLATION.md](docs/INSTALLATION.md)** - Installation guide (stub, full version in Phase 5)
 - **[TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** - Common issues (expanded during migration)
