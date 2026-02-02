@@ -26,6 +26,27 @@ PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 # Ensure we're in the project root
 cd "${PROJECT_ROOT}"
 
+# Load .env file if it exists and GITHUB_TOKEN is not already set
+if [ -z "${GITHUB_TOKEN:-}" ] && [ -f ".env" ]; then
+    echo -e "${YELLOW}Loading GITHUB_TOKEN from .env file...${NC}"
+    # shellcheck disable=SC1091
+    source .env
+fi
+
+# Verify GITHUB_TOKEN is set
+if [ -z "${GITHUB_TOKEN:-}" ]; then
+    echo -e "${RED}Error: GITHUB_TOKEN not set${NC}"
+    echo "Please either:"
+    echo "  1. Export in shell: export GITHUB_TOKEN='your_token'"
+    echo "  2. Create .env file: cp .env.example .env (and add your token)"
+    echo ""
+    echo "Generate token at: https://github.com/settings/tokens (needs 'repo' scope)"
+    exit 1
+fi
+
+# Export for child processes
+export GITHUB_TOKEN
+
 # Check if release-it is installed
 if ! command -v npx &> /dev/null; then
     echo -e "${RED}Error: npx not found. Please install Node.js and npm.${NC}"
