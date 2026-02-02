@@ -1,0 +1,35 @@
+{
+  "git": {
+    "commitMessage": "chore(release): ${version}",
+    "tagName": "v${version}",
+    "tagAnnotation": "Release v${version}",
+    "requireCleanWorkingDir": true,
+    "requireUpstream": true,
+    "requireBranch": "main",
+    "push": true,
+    "pushRepo": "origin"
+  },
+  "github": {
+    "release": true,
+    "releaseName": "v${version}",
+    "releaseNotes": "conventional-changelog -p angular | tail -n +3"
+  },
+  "npm": {
+    "publish": false
+  },
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "preset": {
+        "name": "angular"
+      },
+      "infile": "CHANGELOG.md",
+      "header": "# Changelog\n\nAll notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.\n",
+      "gitRawCommitsOpts": {
+        "path": "."
+      }
+    }
+  },
+  "hooks": {
+    "after:bump": "bash scripts/update-version.sh ${version}"
+  }
+}
