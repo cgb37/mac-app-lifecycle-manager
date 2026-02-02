@@ -192,18 +192,50 @@ test_status_command_stub() {
 }
 
 test_logs_command_stub() {
-  test_start "Logs command stub functionality"
+  test_start "Logs command functionality"
 
+  # Test logs command without subcommand (should show error)
   local output
-  if output=$("$CLI_SCRIPT" logs 2>&1); then
-    if echo "$output" | grep -q "Coming in Phase 4.4"; then
-      test_pass "Logs command shows stub message"
+  local exit_code
+  output=$("$CLI_SCRIPT" logs 2>&1) || exit_code=$?
+
+  if [[ ${exit_code:-0} -eq 1 ]]; then
+    test_pass "Logs command without subcommand returns exit code 1"
+  else
+    test_fail "Logs command without subcommand should return exit code 1, got ${exit_code:-0}"
+    return 1
+  fi
+
+  if echo "$output" | grep -q "Please specify 'close' or 'open' logs"; then
+    test_pass "Logs command shows appropriate error message for missing subcommand"
+  else
+    test_fail "Logs command does not show appropriate error message for missing subcommand"
+    return 1
+  fi
+
+  # Test logs close command
+  if output=$("$CLI_SCRIPT" logs close 2>&1); then
+    if echo "$output" | grep -q "Close Apps Logs"; then
+      test_pass "Logs close command shows header"
     else
-      test_fail "Logs command does not show expected stub message"
+      test_fail "Logs close command does not show expected header"
       return 1
     fi
   else
-    test_fail "Logs command failed to execute"
+    test_fail "Logs close command failed to execute"
+    return 1
+  fi
+
+  # Test logs open command
+  if output=$("$CLI_SCRIPT" logs open 2>&1); then
+    if echo "$output" | grep -q "Open Apps Logs"; then
+      test_pass "Logs open command shows header"
+    else
+      test_fail "Logs open command does not show expected header"
+      return 1
+    fi
+  else
+    test_fail "Logs open command failed to execute"
     return 1
   fi
 }
