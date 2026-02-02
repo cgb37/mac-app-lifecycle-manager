@@ -67,17 +67,12 @@ validate_file_exists "${APP_LIST_PATH}" "App list file" || exit 2
 # Validate AppleScript file
 validate_file_exists "${APPLESCRIPT_PATH}" "AppleScript file" || exit 2
 
-# Ensure log directory exists
-LOG_DIR="$(dirname "${LOG_PATH}")"
-ensure_dir "${LOG_DIR}" "Log directory"
-
 # =============================================================================
 # LOGGING SETUP
 # =============================================================================
 
-# Redirect all output to log files
-exec 1> >(tee -a "${LOG_PATH}")
-exec 2> >(tee -a "${ERR_LOG_PATH}" >&2)
+# Setup logging with rotation
+setup_logging "${LOG_PATH}" "${ERR_LOG_PATH}" "${LOG_RETENTION_DAYS:-14}" "${MAX_LOG_SIZE_MB:-0}"
 
 # =============================================================================
 # MAIN
