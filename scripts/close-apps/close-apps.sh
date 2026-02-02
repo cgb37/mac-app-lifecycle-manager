@@ -97,6 +97,13 @@ main() {
 	
 	# Execute AppleScript
 	log_info "Executing AppleScript..."
+	# Support dry-run mode for tests: set DRY_RUN=1 to skip actual quitting
+	if [[ "${DRY_RUN:-}" == "1" ]]; then
+		log_info "DRY RUN: would execute osascript ${APPLESCRIPT_PATH} ${APP_LIST_PATH} ${QUIT_TIMEOUT} ${CLOSE_DELAY}"
+		log_info "Close-Apps dry-run completed"
+		exit 0
+	fi
+
 	if /usr/bin/osascript "${APPLESCRIPT_PATH}" \
 		"${APP_LIST_PATH}" \
 		"${QUIT_TIMEOUT}" \
