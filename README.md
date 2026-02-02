@@ -205,6 +205,16 @@ This project is currently in active migration. See [docs/MIGRATION_PLAN.md](docs
 
 This project uses [Conventional Commits](https://www.conventionalcommits.org/) and automated releases via [release-it](https://github.com/release-it/release-it).
 
+**Setup (first time):**
+```bash
+# Option A: Shell environment (recommended)
+export GITHUB_TOKEN="your_token"  # Add to ~/.zshrc for persistence
+
+# Option B: .env file
+cp .env.example .env
+vim .env  # Add your token
+```
+
 **Quick release:**
 ```bash
 npm run release        # Interactive (auto-detects version bump)
