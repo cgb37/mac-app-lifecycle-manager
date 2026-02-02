@@ -5,33 +5,13 @@
 
 set -euo pipefail
 
-# Colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+# Source common library
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/scripts/lib/common.sh"
 
 # Script variables
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$SCRIPT_DIR"
 VERBOSE=false
-
-# Logging functions
-log_info() {
-    echo -e "${BLUE}INFO:${NC} $1"
-}
-
-log_success() {
-    echo -e "${GREEN}SUCCESS:${NC} $1"
-}
-
-log_warning() {
-    echo -e "${YELLOW}WARNING:${NC} $1"
-}
-
-log_error() {
-    echo -e "${RED}ERROR:${NC} $1" >&2
-}
 
 # Confirm action
 confirm() {
@@ -50,12 +30,12 @@ unload_agent() {
 
     if launchctl list | grep -q "$label"; then
         if launchctl unload "$plist"; then
-            log_success "Unloaded launchd agent: $label"
+            user_log_success "Unloaded launchd agent: $label"
         else
-            log_warning "Failed to unload launchd agent: $label"
+            user_log_warning "Failed to unload launchd agent: $label"
         fi
     else
-        log_info "Launchd agent not loaded: $label"
+        user_log_info "Launchd agent not loaded: $label"
     fi
 }
 
@@ -66,9 +46,9 @@ remove_file() {
 
     if [[ -f "$file" ]]; then
         rm "$file"
-        log_success "Removed $description: $file"
+        user_log_success "Removed $description: $file"
     else
-        log_info "$description not found: $file"
+        user_log_info "$description not found: $file"
     fi
 }
 
@@ -80,12 +60,12 @@ remove_dir_if_empty() {
     if [[ -d "$dir" ]]; then
         if [[ -z "$(ls -A "$dir" 2>/dev/null)" ]]; then
             rmdir "$dir"
-            log_success "Removed empty $description: $dir"
+            user_log_success "Removed empty $description: $dir"
         else
-            log_info "$description not empty, keeping: $dir"
+            user_log_info "$description not empty, keeping: $dir"
         fi
     else
-        log_info "$description not found: $dir"
+        user_log_info "$description not found: $dir"
     fi
 }
 
@@ -102,7 +82,7 @@ main() {
                 VERBOSE=true
                 ;;
             *)
-                log_error "Unknown option: $1"
+                user_log_error "Unknown option: $1"
                 echo "Usage: $0 [--verbose]"
                 exit 1
                 ;;
@@ -112,17 +92,17 @@ main() {
 
     # Confirm uninstallation
     if ! confirm "This will uninstall macOS App Lifecycle Manager. Continue?"; then
-        log_info "Uninstallation cancelled"
+        user_log_info "Uninstallation cancelled"
         exit 0
     fi
 
     # Unload launchd agents
-    log_info "Unloading launchd agents..."
+    user_log_info "Unloading launchd agents..."
     unload_agent "com.user.mac-app-lifecycle.close" "$HOME/Library/LaunchAgents/com.user.mac-app-lifecycle.close.plist"
     unload_agent "com.user.mac-app-lifecycle.open" "$HOME/Library/LaunchAgents/com.user.mac-app-lifecycle.open.plist"
 
     # Remove plist files
-    log_info "Removing launchd plist files..."
+    user_log_info "Removing launchd plist files..."
     remove_file "$HOME/Library/LaunchAgents/com.user.mac-app-lifecycle.close.plist" "close plist"
     remove_file "$HOME/Library/LaunchAgents/com.user.mac-app-lifecycle.open.plist" "open plist"
 
@@ -138,7 +118,7 @@ main() {
             remove_file "config/apps-to-open.txt" "apps-to-open list"
             remove_dir_if_empty "config" "config directory"
         else
-            log_info "Keeping configuration files"
+            user_log_info "Keeping configuration files"
         fi
     fi
 
@@ -152,14 +132,14 @@ main() {
             remove_file "logs/open-apps.err" "open-apps error log"
             remove_dir_if_empty "logs" "logs directory"
         else
-            log_info "Keeping log files"
+            user_log_info "Keeping log files"
         fi
     fi
 
-    log_success "Uninstallation completed successfully!"
+    user_log_success "Uninstallation completed successfully!"
     echo
-    log_info "Note: macOS permissions (Accessibility, Automation) are not automatically removed."
-    log_info "You can remove them manually in System Settings → Privacy & Security."
+    user_log_info "Note: macOS permissions (Accessibility, Automation) are not automatically removed."
+    user_log_info "You can remove them manually in System Settings → Privacy & Security."
 }
 
 # Run main function
