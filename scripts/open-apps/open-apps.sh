@@ -77,17 +77,12 @@ if [[ -n "${PRIMARY_APP_PATH}" && "${PRIMARY_APP_PATH}" != "" ]]; then
 	fi
 fi
 
-# Ensure log directory exists
-LOG_DIR="$(dirname "${LOG_PATH}")"
-ensure_dir "${LOG_DIR}" "Log directory"
-
 # =============================================================================
 # LOGGING SETUP
 # =============================================================================
 
-# Redirect all output to log files
-exec 1> >(tee -a "${LOG_PATH}")
-exec 2> >(tee -a "${ERR_LOG_PATH}" >&2)
+# Setup logging with rotation
+setup_logging "${LOG_PATH}" "${ERR_LOG_PATH}" "${LOG_RETENTION_DAYS:-14}" "${MAX_LOG_SIZE_MB:-0}"
 
 # =============================================================================
 # MAIN
