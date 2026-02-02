@@ -84,5 +84,23 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows
 
-### Custom ignores ###
+# =============================================================================
+# Node.js / npm
+# =============================================================================
+
+# Dependencies
+node_modules/
+package-lock.json
+
+# npm cache
+.npm
+
+# Environment variables
+.env
+.env.local
+
+# =============================================================================
+# Custom ignores
+# =============================================================================
+
 original-scripts-to-be-migrated/*
