@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # mac-app-lifecycle - CLI tool for managing macOS application lifecycle
 #
-# Version: 0.0.12
+# Version: 0.0.13
 # Phase 1: Stub with help text (full implementation in Phase 4)
 
 set -euo pipefail
