@@ -1,6 +1,6 @@
 # macOS App Lifecycle Manager
 
-**Version: **0.1.0****
+**Version: **2.0.0****
 
 Automated macOS application lifecycle management through scheduled closing and whitelist-based opening of applications.
 
