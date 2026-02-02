@@ -306,9 +306,70 @@ handle_status() {
 }
 
 handle_logs() {
-    echo "Phase 4.1: logs command handler - Coming in Phase 4.4"
-    echo "Arguments: $@"
-    # TODO: Implement in Phase 4.4
+    local subcommand="${1:-}"
+
+    case "$subcommand" in
+        close)
+            show_close_logs
+            ;;
+        open)
+            show_open_logs
+            ;;
+        "")
+            echo "Error: Please specify 'close' or 'open' logs" >&2
+            echo "Usage: mac-app-lifecycle logs <close|open>" >&2
+            exit 1
+            ;;
+        *)
+            echo "Error: Unknown logs subcommand '$subcommand'" >&2
+            echo "Usage: mac-app-lifecycle logs <close|open>" >&2
+            exit 1
+            ;;
+    esac
+}
+
+show_close_logs() {
+    local log_file="$LOG_DIR/close-apps.log"
+
+    echo "Close Apps Logs"
+    echo "==============="
+    echo "Log file: $log_file"
+    echo ""
+
+    if [[ -f "$log_file" ]]; then
+        if [[ -s "$log_file" ]]; then
+            echo "Recent entries:"
+            echo ""
+            tail -20 "$log_file"
+        else
+            echo "Log file exists but is empty"
+        fi
+    else
+        echo "Log file does not exist: $log_file"
+        echo "Run 'mac-app-lifecycle close' to generate logs"
+    fi
+}
+
+show_open_logs() {
+    local log_file="$LOG_DIR/open-apps.log"
+
+    echo "Open Apps Logs"
+    echo "=============="
+    echo "Log file: $log_file"
+    echo ""
+
+    if [[ -f "$log_file" ]]; then
+        if [[ -s "$log_file" ]]; then
+            echo "Recent entries:"
+            echo ""
+            tail -20 "$log_file"
+        else
+            echo "Log file exists but is empty"
+        fi
+    else
+        echo "Log file does not exist: $log_file"
+        echo "Run 'mac-app-lifecycle open' to generate logs"
+    fi
 }
 
 # =============================================================================
