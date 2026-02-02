@@ -200,6 +200,14 @@ Phase 3: Open-apps implementation with unified approach
   - `npm run test:close-apps` - Syntax check + dry-run test
   - Release management scripts (`npm run release`, etc.)
 
+### Phase 4.1: Core Command Structure ✅ COMPLETE
+- ✅ Self-discovery mechanism implemented
+- ✅ Real command parsing with validation
+- ✅ Installation validation function added
+- ✅ Command handler stubs created
+- ✅ Help and version updated with dynamic paths
+- ✅ **Bonus**: Version now reads dynamically from package.json
+
 ### Key Features:
 - Invoke shell wrappers with proper error handling
 - Pretty console output (colored if supported)
