@@ -161,14 +161,28 @@ test_no_command() {
 }
 
 test_status_command_stub() {
-  test_start "Status command stub functionality"
+  test_start "Status command functionality"
 
   local output
   if output=$("$CLI_SCRIPT" status 2>&1); then
-    if echo "$output" | grep -q "Coming in Phase 4.3"; then
-      test_pass "Status command shows stub message"
+    if echo "$output" | grep -q "mac-app-lifecycle Status"; then
+      test_pass "Status command shows status header"
     else
-      test_fail "Status command does not show expected stub message"
+      test_fail "Status command does not show status header"
+      return 1
+    fi
+
+    if echo "$output" | grep -q "Close Apps Agent:"; then
+      test_pass "Status command shows close apps agent info"
+    else
+      test_fail "Status command does not show close apps agent info"
+      return 1
+    fi
+
+    if echo "$output" | grep -q "Open Apps Agent:"; then
+      test_pass "Status command shows open apps agent info"
+    else
+      test_fail "Status command does not show open apps agent info"
       return 1
     fi
   else
