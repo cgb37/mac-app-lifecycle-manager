@@ -141,19 +141,119 @@ show_version() {
 }
 
 # =============================================================================
-# COMMAND HANDLERS (STUBS FOR PHASE 4.1)
+# COMMAND HANDLERS
 # =============================================================================
 
 handle_close() {
-    echo "Phase 4.1: close command handler - Coming in Phase 4.2"
-    echo "Arguments: $@"
-    # TODO: Implement in Phase 4.2
+    local now=false
+    local dry_run=false
+    local verbose=false
+
+    # Parse options
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --now)
+                now=true
+                shift
+                ;;
+            --dry-run)
+                dry_run=true
+                shift
+                ;;
+            --verbose)
+                verbose=true
+                shift
+                ;;
+            *)
+                echo "Error: Unknown option for close command: $1" >&2
+                echo "Usage: mac-app-lifecycle close [--now] [--dry-run] [--verbose]" >&2
+                exit 1
+                ;;
+        esac
+    done
+
+    # Validate config exists
+    local config_file="$CONFIG_DIR/close-apps.conf"
+    if [[ ! -f "$config_file" ]]; then
+        echo "Error: Close-apps config not found: $config_file" >&2
+        echo "Run: cp config/close-apps.conf.example config/close-apps.conf" >&2
+        exit 3
+    fi
+
+    # Set environment variables for shell wrapper
+    if [[ "$dry_run" == true ]]; then
+        export DRY_RUN=1
+    fi
+
+    if [[ "$verbose" == true ]]; then
+        export LOG_LEVEL=DEBUG
+    fi
+
+    # Execute the close-apps script
+    echo "Executing close-apps script..."
+    if "$SCRIPTS_DIR/close-apps/close-apps.sh"; then
+        echo "Close-apps completed successfully"
+    else
+        local exit_code=$?
+        echo "Close-apps failed with exit code: $exit_code" >&2
+        exit 4
+    fi
 }
 
 handle_open() {
-    echo "Phase 4.1: open command handler - Coming in Phase 4.2"
-    echo "Arguments: $@"
-    # TODO: Implement in Phase 4.2
+    local now=false
+    local dry_run=false
+    local verbose=false
+
+    # Parse options
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --now)
+                now=true
+                shift
+                ;;
+            --dry-run)
+                dry_run=true
+                shift
+                ;;
+            --verbose)
+                verbose=true
+                shift
+                ;;
+            *)
+                echo "Error: Unknown option for open command: $1" >&2
+                echo "Usage: mac-app-lifecycle open [--now] [--dry-run] [--verbose]" >&2
+                exit 1
+                ;;
+        esac
+    done
+
+    # Validate config exists
+    local config_file="$CONFIG_DIR/open-apps.conf"
+    if [[ ! -f "$config_file" ]]; then
+        echo "Error: Open-apps config not found: $config_file" >&2
+        echo "Run: cp config/open-apps.conf.example config/open-apps.conf" >&2
+        exit 3
+    fi
+
+    # Set environment variables for shell wrapper
+    if [[ "$dry_run" == true ]]; then
+        export DRY_RUN=1
+    fi
+
+    if [[ "$verbose" == true ]]; then
+        export LOG_LEVEL=DEBUG
+    fi
+
+    # Execute the open-apps script
+    echo "Executing open-apps script..."
+    if "$SCRIPTS_DIR/open-apps/open-apps.sh"; then
+        echo "Open-apps completed successfully"
+    else
+        local exit_code=$?
+        echo "Open-apps failed with exit code: $exit_code" >&2
+        exit 4
+    fi
 }
 
 handle_status() {
