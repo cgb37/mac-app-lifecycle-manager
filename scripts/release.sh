@@ -91,7 +91,7 @@ case "${RELEASE_TYPE}" in
         ;;
     "")
         echo -e "${GREEN}Starting interactive release (auto-detect version bump)...${NC}"
-        GITHUB_TOKEN="${GITHUB_TOKEN}" npx release-it ${EXTRA_ARGS}
+        GITHUB_TOKEN="${GITHUB_TOKEN}" npx release-it ${EXTRA_ARGS} --ci
         ;;
     *)
         echo -e "${RED}Error: Unknown release type '${RELEASE_TYPE}'${NC}"
