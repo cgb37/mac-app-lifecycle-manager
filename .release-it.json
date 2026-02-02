@@ -12,8 +12,7 @@
   "github": {
     "release": true,
     "releaseName": "v${version}",
-    "releaseNotes": "conventional-changelog -p angular | tail -n +3",
-    "tokenRef": "GITHUB_TOKEN"
+    "releaseNotes": "conventional-changelog -p angular | tail -n +3"
   },
   "npm": {
     "publish": false
