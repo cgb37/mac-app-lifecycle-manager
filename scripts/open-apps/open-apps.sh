@@ -109,6 +109,13 @@ main() {
 	
 	# Execute AppleScript
 	log_info "Executing AppleScript..."
+	# Support dry-run mode for tests: set DRY_RUN=1 to skip actual launching
+	if [[ "${DRY_RUN:-}" == "1" ]]; then
+		log_info "DRY RUN: would execute osascript ${APPLESCRIPT_PATH} ${WHITELIST_PATH} ${PRIMARY_APP_PATH:-} ${STAGGER_DELAY} ${POST_LAUNCH_DELAY} ${SKIP_RUNNING}"
+		log_info "Open-Apps dry-run completed"
+		exit 0
+	fi
+
 	if /usr/bin/osascript "${APPLESCRIPT_PATH}" \
 		"${WHITELIST_PATH}" \
 		"${PRIMARY_APP_PATH:-}" \
