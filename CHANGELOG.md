@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 
+## [0.0.15](https://github.com/cgb37/mac-app-lifecycle-manager/compare/v0.0.14...v0.0.15) (2026-02-02)
+
+
+### Features
+
+* **cli:** enhance mac-app-lifecycle tool with new features ([c3f2b50](https://github.com/cgb37/mac-app-lifecycle-manager/commit/c3f2b503701a848e0838badeaa044553c6412ed6)), closes [#14](https://github.com/cgb37/mac-app-lifecycle-manager/issues/14)
+* **docs:** add comprehensive commands reference ([30617d8](https://github.com/cgb37/mac-app-lifecycle-manager/commit/30617d82bb931ea5dd5866c15fefaae92046cd4b)), closes [#16](https://github.com/cgb37/mac-app-lifecycle-manager/issues/16)
+* **docs:** add comprehensive installation guide ([097b49b](https://github.com/cgb37/mac-app-lifecycle-manager/commit/097b49bbba5c4325876809dbdfacaf78530e7084))
+* **install:** add installation script for macOS App Lifecycle Manager ([b95b54c](https://github.com/cgb37/mac-app-lifecycle-manager/commit/b95b54c95996bc7e5914bdd19e089a4ba1db4c12)), closes [#16](https://github.com/cgb37/mac-app-lifecycle-manager/issues/16)
+* **installation:** add installation and uninstall scripts ([9da9f68](https://github.com/cgb37/mac-app-lifecycle-manager/commit/9da9f685ac53093dd444646ed34a4891ff62db2a))
+* **installation:** adds automated installation and uninstallation scripts ([573dfc3](https://github.com/cgb37/mac-app-lifecycle-manager/commit/573dfc3cbe31f6858e830e5e5b1bde1a5c1f64b8)), closes [#16](https://github.com/cgb37/mac-app-lifecycle-manager/issues/16)
+* **lifecycle:** add plist command to view plist configurations ([8d088f9](https://github.com/cgb37/mac-app-lifecycle-manager/commit/8d088f9a83f8ffc461ad1120f930051897295b34)), closes [#16](https://github.com/cgb37/mac-app-lifecycle-manager/issues/16)
+* **logging:** add colored user-friendly logging functions ([a9877c8](https://github.com/cgb37/mac-app-lifecycle-manager/commit/a9877c852eb212e1feb9961df8663c0a9229a141))
+* **tests:** add plist command functionality tests ([21a0167](https://github.com/cgb37/mac-app-lifecycle-manager/commit/21a016731030460645c9fb18d8eef53699587fea))
+* **uninstall:** add uninstallation script for macOS App Lifecycle Manager ([afe8000](https://github.com/cgb37/mac-app-lifecycle-manager/commit/afe80005e95641c1ab8d87afafa73f9adcd0df61)), closes [#16](https://github.com/cgb37/mac-app-lifecycle-manager/issues/16)
+
 ## [0.0.14](https://github.com/cgb37/mac-app-lifecycle-manager/compare/v0.0.13...v0.0.14) (2026-02-02)
 
 

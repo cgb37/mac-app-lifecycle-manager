@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # close-apps.sh - Shell wrapper for close-apps automation
 # Part of mac-app-lifecycle-manager
-# Version: 0.0.14
+# Version: 0.0.15
 #
 # This script loads configuration, validates files, and invokes the AppleScript
 # to close configured applications.
