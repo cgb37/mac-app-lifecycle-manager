@@ -257,9 +257,52 @@ handle_open() {
 }
 
 handle_status() {
-    echo "Phase 4.1: status command handler - Coming in Phase 4.3"
-    echo "Arguments: $@"
-    # TODO: Implement in Phase 4.3
+    echo "mac-app-lifecycle Status"
+    echo "========================"
+    echo ""
+
+    # Check close-apps agent
+    echo "Close Apps Agent:"
+    echo "  Label: com.user.mac-app-lifecycle.close"
+
+    if launchctl list com.user.mac-app-lifecycle.close >/dev/null 2>&1; then
+        echo "  Status: LOADED"
+        # Could show PID if we parse the output, but for now just show loaded
+    else
+        echo "  Status: NOT LOADED"
+    fi
+
+    # Check plist file
+    local close_plist="$HOME/Library/LaunchAgents/com.user.mac-app-lifecycle.close.plist"
+    if [[ -f "$close_plist" ]]; then
+        echo "  Plist: $close_plist"
+    else
+        echo "  Plist: Not installed"
+    fi
+
+    echo ""
+
+    # Check open-apps agent
+    echo "Open Apps Agent:"
+    echo "  Label: com.user.mac-app-lifecycle.open"
+
+    if launchctl list com.user.mac-app-lifecycle.open >/dev/null 2>&1; then
+        echo "  Status: LOADED"
+    else
+        echo "  Status: NOT LOADED"
+    fi
+
+    # Check plist file
+    local open_plist="$HOME/Library/LaunchAgents/com.user.mac-app-lifecycle.open.plist"
+    if [[ -f "$open_plist" ]]; then
+        echo "  Plist: $open_plist"
+    else
+        echo "  Plist: Not installed"
+    fi
+
+    echo ""
+    echo "Note: Use install.sh/uninstall.sh scripts to load/unload agents"
+    echo "      This command only shows current status"
 }
 
 handle_logs() {
