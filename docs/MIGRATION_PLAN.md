@@ -181,16 +181,24 @@ Phase 3: Open-apps implementation with unified approach
 **Goal:** Create user-facing CLI for manual operations.
 
 ### Deliverables:
-1. ✅ Implement `bin/mac-app-lifecycle` with subcommands:
+1. 🚧 Implement `bin/mac-app-lifecycle` with subcommands:
    - `close [--now]` - Close apps immediately
    - `open [--now]` - Open apps immediately
    - `status` - Show launchd agent status
    - `logs [close|open]` - Display recent logs
    - `--help` - Show usage
    - `--version` - Show version
-2. ✅ Add dry-run mode: `--dry-run`
-3. ✅ Add verbose mode: `--verbose`
-4. ✅ Validate installation before operations
+2. 🚧 Add dry-run mode: `--dry-run`
+3. 🚧 Add verbose mode: `--verbose`
+4. 🚧 Validate installation before operations
+
+### Development Tools Added:
+- ✅ Added npm scripts in `package.json` for development/testing:
+  - `npm run open-apps` - Direct call to open-apps.sh
+  - `npm run close-apps` - Direct call to close-apps.sh
+  - `npm run test:open-apps` - Syntax check + dry-run test
+  - `npm run test:close-apps` - Syntax check + dry-run test
+  - Release management scripts (`npm run release`, etc.)
 
 ### Key Features:
 - Invoke shell wrappers with proper error handling
@@ -389,7 +397,7 @@ Update `.github/copilot-instructions.md` after Phase 5 with:
 **Phase 1 Complete:** Structure exists, configs documented, can proceed with implementation
 **Phase 2 Complete:** Close-apps works manually, no errors in logs
 **Phase 3 Complete:** Open-apps works manually, consistent with close-apps
-**Phase 4 Complete:** CLI tool works for all operations, clear output
+**Phase 4 Complete:** CLI tool works for all operations, clear output (npm scripts added as development shortcuts, but main CLI tool not yet implemented)
 **Phase 5 Complete:** Fresh installation succeeds, uninstall removes everything
 **Phase 6 Complete:** Edge cases handled, documentation accurate
 **Phase 7 Complete:** Ready for public use, all docs validated
