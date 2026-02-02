@@ -18,24 +18,35 @@ The logging system provides:
 Each workflow (close-apps, open-apps) maintains two log files:
 
 ### Main Log (`*.log`)
-- **Purpose**: Standard output (stdout) from wrapper script
-- **Contains**: INFO/DEBUG messages from shell wrapper via `log_info()`, `log_debug()`
+- **Purpose**: Access/informational log for normal operations
+- **Contains**: INFO and WARN messages from both shell wrapper and AppleScript
 - **Location**: `logs/close-apps.log`, `logs/open-apps.log`
+- **Includes**: Startup messages, app processing steps, completion status
 
 ### Error Log (`*.err`)
-- **Purpose**: Standard error (stderr) from AppleScript and shell errors
-- **Contains**: AppleScript INFO/WARN/DEBUG output, shell stderr, error messages
+- **Purpose**: Debugging and error messages
+- **Contains**: ERROR and DEBUG messages from both shell wrapper and AppleScript
 - **Location**: `logs/close-apps.err`, `logs/open-apps.err`
+- **Includes**: Detailed diagnostics, error conditions, debug traces
 - **Timestamps**: Automatically added by wrapper via stderr redirection
+
+**Log Separation**: The logging system automatically routes messages by log level:
+- `INFO:` and `WARN:` → `*.log` (main log)
+- `ERROR:` and `DEBUG:` → `*.err` (error log)
+
+This separation makes it easier to:
+- Monitor normal operations without noise from debug messages
+- Troubleshoot issues by focusing on error/debug logs
+- Archive access logs separately from diagnostic logs
 
 ## Log Levels
 
-| Level | Purpose | Output Stream | Example |
-|-------|---------|---------------|---------|
-| `DEBUG` | Detailed diagnostic info | stdout | `[DEBUG] Validating configuration...` |
-| `INFO` | Normal operational messages | stdout | `[INFO] Closing ChatGPT` |
-| `WARN` | Warning messages | stderr | `[WARN] App not found: /Applications/iTerm2.app` |
-| `ERROR` | Error messages | stderr | `[ERROR] Configuration file not found` |
+| Level | Purpose | Log File | Example |
+|-------|---------|----------|---------|
+| `DEBUG` | Detailed diagnostic info | `*.err` | `[DEBUG] Validating configuration...` |
+| `INFO` | Normal operational messages | `*.log` | `[INFO] Closing ChatGPT` |
+| `WARN` | Warning messages | `*.log` | `[WARN] App not found: /Applications/iTerm2.app` |
+| `ERROR` | Error messages | `*.err` | `[ERROR] Configuration file not found` |
 
 **Note**: DEBUG messages only appear when `LOG_LEVEL=DEBUG` is set in the config file.
 
@@ -116,13 +127,13 @@ logs/
 
 ### View Current Logs
 
-**Main log (stdout):**
+**Main log (INFO/WARN):**
 ```bash
 tail -f logs/close-apps.log
 tail -f logs/open-apps.log
 ```
 
-**Error log (stderr):**
+**Error log (ERROR/DEBUG):**
 ```bash
 tail -f logs/close-apps.err
 tail -f logs/open-apps.err
@@ -161,33 +172,35 @@ find logs/ -name "close-apps.*.gz" -mtime -7 -exec zgrep "ERROR" {} +
 
 ## Log Structure Examples
 
-### Main Log (stdout)
+### Main Log (`*.log` - INFO/WARN only)
 ```
 [2026-02-02 19:00:00] [INFO] =========================================
 [2026-02-02 19:00:00] [INFO] Close-Apps Starting
 [2026-02-02 19:00:00] [INFO] =========================================
 [2026-02-02 19:00:00] [INFO] Config: /path/to/config/close-apps.conf
 [2026-02-02 19:00:00] [INFO] App list: /path/to/config/apps-to-close.txt
-[2026-02-02 19:00:00] [DEBUG] Loading configuration from: /path/to/config
 [2026-02-02 19:00:01] [INFO] Apps to process: 18
 [2026-02-02 19:00:01] [INFO] Executing AppleScript...
+[2026-02-02 19:00:02] INFO: Closing apps by name...
+[2026-02-02 19:00:02] INFO: Closing ChatGPT
+[2026-02-02 19:00:03] INFO: Closing Google Chrome
+[2026-02-02 19:00:05] INFO: Closing apps by path...
+[2026-02-02 19:00:05] INFO: Closing /Applications/Visual Studio Code.app
+[2026-02-02 19:00:06] WARN: Failed to close /Applications/iTerm2.app: App not found
 [2026-02-02 19:00:15] [INFO] Close-Apps completed successfully
 [2026-02-02 19:00:15] [INFO] =========================================
 ```
 
-### Error Log (stderr)
+### Error Log (`*.err` - ERROR/DEBUG only)
 ```
-[2026-02-02 19:00:02] INFO: Closing apps by name...
-[2026-02-02 19:00:02] INFO: Closing ChatGPT
-[2026-02-02 19:00:03] INFO: Closing Google Chrome
 [2026-02-02 19:00:04] DEBUG: Stickies not running
-[2026-02-02 19:00:05] INFO: Closing apps by path...
-[2026-02-02 19:00:05] INFO: Closing /Applications/Visual Studio Code.app
-[2026-02-02 19:00:06] WARN: Failed to close /Applications/iTerm2.app: App not found
-[2026-02-02 19:00:10] INFO: Force quitting stubborn apps...
+[2026-02-02 19:00:04] DEBUG: Quicken not running
 [2026-02-02 19:00:10] DEBUG: pkill for thinkorswim: The command exited with a non-zero status.
-[2026-02-02 19:00:12] INFO: App closing complete
+[2026-02-02 19:05:23] ERROR: Failed to read app list file: /path/to/missing.txt
+[2026-02-02 19:05:23] ERROR: No such file or directory
 ```
+
+**Note**: In normal operation with DEBUG logging disabled, the error log will be mostly empty unless actual errors occur.
 
 ## Disk Usage Management
 
@@ -329,8 +342,12 @@ setup_logging "${LOG_PATH}" "${ERR_LOG_PATH}" "${LOG_RETENTION_DAYS:-14}" "${MAX
 This single function call:
 1. Ensures log directory exists
 2. Rotates logs if needed (based on age/size)
-3. Sets up stdout redirection with tee (to file + console)
-4. Sets up stderr redirection with timestamps and tee (to file + console)
+3. Redirects stdout to main log with tee (to file + console)
+4. Redirects stderr through log level filter:
+   - Messages matching `INFO:` or `WARN:` → appended to main log
+   - Messages matching `ERROR:` or `DEBUG:` → appended to error log
+   - All messages also echoed to console (stderr)
+5. Automatically adds timestamps to messages without them
 
 ## Best Practices
 

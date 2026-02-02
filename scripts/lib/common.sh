@@ -40,7 +40,7 @@ log_error() {
 log_debug() {
   local message="$1"
   if [[ "${LOG_LEVEL:-INFO}" == "DEBUG" ]]; then
-    echo "[$(timestamp)] [DEBUG] ${message}"
+    echo "[$(timestamp)] [DEBUG] ${message}" >&2
   fi
 }
 
@@ -289,7 +289,7 @@ rotate_logs() {
 # This function:
 # - Rotates logs if needed
 # - Redirects stdout to main log (with tee for console output)
-# - Redirects stderr to error log with timestamps (with tee for console output)
+# - Filters stderr by log level: INFO/WARN → main log, ERROR/DEBUG → error log
 setup_logging() {
   local main_log="$1"
   local err_log="$2"
@@ -307,10 +307,27 @@ setup_logging() {
   # Redirect stdout to main log (preserve timestamps from log_* functions)
   exec 1> >(tee -a "${main_log}")
   
-  # Redirect stderr through timestamping pipe, append to err log, and send to stderr
-  exec 2> >(while IFS= read -r line; do 
-    printf "[%s] %s\n" "$(date '+%Y-%m-%d %H:%M:%S')" "$line"
-  done | tee -a "${err_log}" >&2)
+  # Redirect stderr through filter that routes by log level
+  exec 2> >(while IFS= read -r line; do
+    # Add timestamp if not already present
+    local timestamped_line
+    if [[ "$line" =~ ^\[[0-9]{4}-[0-9]{2}-[0-9]{2} ]]; then
+      timestamped_line="$line"
+    else
+      timestamped_line="[$(date '+%Y-%m-%d %H:%M:%S')] $line"
+    fi
+    
+    # Route based on log level
+    if [[ "$line" =~ ^(INFO:|WARN:) ]] || [[ "$line" =~ \[(INFO|WARN)\] ]]; then
+      # INFO and WARN go to main log
+      echo "$timestamped_line" >> "${main_log}"
+      echo "$timestamped_line" >&2
+    else
+      # ERROR, DEBUG, and everything else go to error log
+      echo "$timestamped_line" >> "${err_log}"
+      echo "$timestamped_line" >&2
+    fi
+  done)
 }
 
 # =============================================================================
