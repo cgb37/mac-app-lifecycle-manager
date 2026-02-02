@@ -1,38 +1,170 @@
 # Troubleshooting Guide
 
-> **Note:** This is a stub document for Phase 1. Common issues and solutions will be added as they are discovered during migration (Phases 2-6).
+This guide helps resolve common issues with the macOS App Lifecycle Manager.
 
-## Known Issues
+## Installation Issues
 
-Issues will be documented here as they are encountered during the migration process.
+### Installation Script Fails
 
-## Common Problems (Placeholder)
+**Symptoms:** `install.sh` exits with error
 
-### Configuration Issues
-*To be documented in Phase 2-3*
+**Common causes:**
+- Not running on macOS
+- macOS version too old (< 10.15)
+- Missing required commands (`osascript`, `launchctl`)
+- No write permission to `~/Library/LaunchAgents/`
 
-### Permission Errors
-*To be documented during testing*
+**Solutions:**
+```bash
+# Check macOS version
+sw_vers -productVersion
 
-### Schedule Not Triggering
-*To be documented in Phase 5*
+# Check required commands
+which osascript launchctl
+
+# Check permissions
+ls -la ~/Library/LaunchAgents/
+```
+
+### launchd Agent Won't Load
+
+**Symptoms:** `launchctl load` fails
+
+**Causes:**
+- Invalid plist syntax
+- Missing script files
+- Permission issues
+
+**Solutions:**
+```bash
+# Validate plist syntax
+plutil ~/Library/LaunchAgents/com.user.mac-app-lifecycle.close.plist
+
+# Check script exists and is executable
+ls -la scripts/close-apps/close-apps.sh
+
+# Try manual load with verbose output
+launchctl load -w ~/Library/LaunchAgents/com.user.mac-app-lifecycle.close.plist
+```
+
+### Permission Prompts During Installation
+
+**Symptoms:** macOS asks for permissions during setup
+
+**Solution:** Accept the prompts - they're required for the tool to work.
+
+## Runtime Issues
 
 ### Apps Not Closing/Opening
-*To be documented in Phase 2-3*
+
+**Symptoms:** Scripts run but apps don't respond
+
+**Common causes:**
+- Missing Accessibility permissions
+- Missing Automation permissions for specific apps
+- Apps already closed/opened
+- Invalid app names/paths in config
+
+**Solutions:**
+1. **Check Accessibility permissions:**
+   - System Settings → Privacy & Security → Accessibility
+   - Ensure Terminal.app (or your terminal) is enabled
+
+2. **Check Automation permissions:**
+   - System Settings → Privacy & Security → Automation
+   - Enable Terminal.app for each app you want to control
+
+3. **Verify app lists:**
+   ```bash
+   cat config/apps-to-close.txt
+   cat config/apps-to-open.txt
+   ```
+
+4. **Test manually:**
+   ```bash
+   ./bin/mac-app-lifecycle close --now
+   ```
+
+### Schedule Not Triggering
+
+**Symptoms:** Agents loaded but don't run at scheduled times
+
+**Causes:**
+- Incorrect time format in plist
+- System sleep/preferences
+- launchd disabled
+
+**Solutions:**
+```bash
+# Check agent status
+launchctl list com.user.mac-app-lifecycle.close
+
+# Check system time
+date
+
+# Check plist schedule
+grep -A 5 StartCalendarInterval ~/Library/LaunchAgents/com.user.mac-app-lifecycle.close.plist
+
+# Test manual trigger
+launchctl start com.user.mac-app-lifecycle.close
+```
+
+### Scripts Exit with Errors
+
+**Symptoms:** Non-zero exit codes, error logs
+
+**Check logs:**
+```bash
+tail -f logs/close-apps.err
+tail -f logs/open-apps.err
+```
+
+**Common errors:**
+- Missing config files
+- Invalid paths
+- Permission denied on log files
+
+## Configuration Issues
+
+### Config File Not Found
+
+**Symptoms:** Script complains about missing config
+
+**Solution:** Ensure config files exist:
+```bash
+ls -la config/
+# If missing, copy from examples
+cp config/close-apps.conf.example config/close-apps.conf
+```
+
+### Invalid Time Format
+
+**Symptoms:** Schedule validation fails
+
+**Solution:** Use 24-hour format HH:MM (e.g., 19:00, 08:30)
+
+### App Paths Incorrect
+
+**Symptoms:** Apps not found
+
+**Solutions:**
+- Use full paths: `/Applications/AppName.app`
+- Check case sensitivity
+- Verify apps exist: `ls "/Applications/AppName.app"`
 
 ## Debugging
 
 ### Enable Debug Logging
 
-Edit your config file:
+Edit config files to increase verbosity:
 ```bash
-# In ~/.config/mac-app-lifecycle/close-apps.conf or open-apps.conf
+# In config/close-apps.conf or config/open-apps.conf
 LOG_LEVEL="DEBUG"
 ```
 
 ### Check Logs
 
-View recent logs:
+View recent activity:
 ```bash
 # Close-apps logs
 tail -f logs/close-apps.log
@@ -41,17 +173,25 @@ tail -f logs/close-apps.err
 # Open-apps logs
 tail -f logs/open-apps.log
 tail -f logs/open-apps.err
+
+# Or use the CLI
+./bin/mac-app-lifecycle logs close
+./bin/mac-app-lifecycle logs open
 ```
 
 ### Test Scripts Manually
 
-Run scripts directly (without launchd):
+Run without launchd:
 ```bash
 # Close apps
 ./scripts/close-apps/close-apps.sh
 
 # Open apps
 ./scripts/open-apps/open-apps.sh
+
+# Or use CLI
+./bin/mac-app-lifecycle close --now
+./bin/mac-app-lifecycle open --now
 ```
 
 ### Check launchd Status
@@ -62,9 +202,8 @@ launchctl list | grep mac-app-lifecycle
 
 # Check specific agent
 launchctl list com.user.mac-app-lifecycle.close
-launchctl list com.user.mac-app-lifecycle.open
 
-# View agent status (macOS 11+)
+# View detailed status (macOS 11+)
 launchctl print gui/$(id -u)/com.user.mac-app-lifecycle.close
 ```
 
@@ -76,7 +215,7 @@ Required for AppleScript to control applications.
 
 **Check:** System Settings → Privacy & Security → Accessibility
 
-**Fix:** Add Terminal.app (or your script runner) to the list
+**Fix:** Add Terminal.app (or your script runner) to the list and enable it
 
 ### Automation Permission
 
@@ -84,11 +223,14 @@ Required for each app that will be controlled.
 
 **Check:** System Settings → Privacy & Security → Automation
 
-**Fix:** Approve requests as they appear, or pre-approve Terminal.app
+**Fix:** 
+1. Find your terminal app in the list
+2. Enable automation for each app you want to control
+3. Accept prompts as they appear
 
 ### Full Disk Access
 
-May be required for certain apps or directories.
+May be required for certain terminal applications.
 
 **Check:** System Settings → Privacy & Security → Full Disk Access
 
@@ -103,19 +245,15 @@ May be required for certain apps or directories.
 
 ## Reporting Issues
 
-When reporting issues during development, include:
-- macOS version
+When reporting issues, include:
+- macOS version: `sw_vers -productVersion`
 - Relevant log snippets
-- Config file (sanitize personal paths)
+- Config files (sanitize personal paths)
 - Steps to reproduce
 - Expected vs. actual behavior
 
 ## See Also
 
-- [Configuration Reference](CONFIGURATION.md) - All config options
 - [Installation Guide](INSTALLATION.md) - Setup instructions
+- [Configuration Reference](CONFIGURATION.md) - All config options
 - [Migration Plan](MIGRATION_PLAN.md) - Development roadmap
-
----
-
-**This document will be expanded during Phases 2-6 as issues are discovered and resolved.**
