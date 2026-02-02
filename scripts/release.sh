@@ -60,36 +60,37 @@ fi
 
 # Parse arguments
 RELEASE_TYPE="${1:-}"
-DRY_RUN=""
+shift || true  # Remove first arg, continue if none left
+EXTRA_ARGS="$@"  # Capture remaining arguments
 
 case "${RELEASE_TYPE}" in
     major)
         echo -e "${GREEN}Starting major release...${NC}"
-        npx release-it major
+        npx release-it major ${EXTRA_ARGS}
         ;;
     minor)
         echo -e "${GREEN}Starting minor release...${NC}"
-        npx release-it minor
+        npx release-it minor ${EXTRA_ARGS}
         ;;
     patch)
         echo -e "${GREEN}Starting patch release...${NC}"
-        npx release-it patch
+        npx release-it patch ${EXTRA_ARGS}
         ;;
     set)
         echo -e "${GREEN}Set specific version...${NC}"
-        npx release-it --no-increment
+        npx release-it --no-increment ${EXTRA_ARGS}
         ;;
     --dry-run)
         echo -e "${YELLOW}Running in dry-run mode...${NC}"
-        npx release-it --dry-run
+        npx release-it --dry-run ${EXTRA_ARGS}
         ;;
     "")
         echo -e "${GREEN}Starting interactive release (auto-detect version bump)...${NC}"
-        npx release-it
+        npx release-it ${EXTRA_ARGS}
         ;;
     *)
         echo -e "${RED}Error: Unknown release type '${RELEASE_TYPE}'${NC}"
-        echo "Usage: $0 [major|minor|patch|set|--dry-run]"
+        echo "Usage: $0 [major|minor|patch|set|--dry-run] [additional release-it flags]"
         exit 1
         ;;
 esac
